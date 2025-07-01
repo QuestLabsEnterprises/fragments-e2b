@@ -36,16 +36,16 @@ export function useAuth(
   useEffect(() => {
     if (!supabase) {
       console.warn('Supabase is not initialized')
-      return setSession({ user: { email: 'demo@e2b.dev' } } as Session)
+      return setSession({ user: { email: 'demo@codecanvas.dev' } } as Session)
     }
 
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
       if (session) {
         getUserTeam(session).then(setUserTeam)
-        if (!session.user.user_metadata.is_fragments_user) {
+        if (!session.user.user_metadata.is_canvas_user) {
           supabase?.auth.updateUser({
-            data: { is_fragments_user: true },
+            data: { is_canvas_user: true },
           })
         }
         posthog.identify(session?.user.id, {
@@ -74,9 +74,9 @@ export function useAuth(
       if (_event === 'SIGNED_IN' && !recovery) {
         getUserTeam(session as Session).then(setUserTeam)
         setAuthDialog(false)
-        if (!session?.user.user_metadata.is_fragments_user) {
+        if (!session?.user.user_metadata.is_canvas_user) {
           supabase?.auth.updateUser({
-            data: { is_fragments_user: true },
+            data: { is_canvas_user: true },
           })
         }
         posthog.identify(session?.user.id, {

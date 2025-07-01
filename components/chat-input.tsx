@@ -155,7 +155,7 @@ export function ChatInput({
     >
       {isErrored && (
         <div
-          className={`flex items-center p-1.5 text-sm font-medium mx-4 mb-10 rounded-xl ${
+          className={`flex items-center p-1.5 text-sm font-medium mx-4 mb-10 rounded-xl paper-card ${
             isRateLimited
               ? 'bg-orange-400/10 text-orange-400'
               : 'bg-red-400/10 text-red-400'
@@ -173,9 +173,8 @@ export function ChatInput({
         </div>
       )}
       <div className="relative">
-        <RepoBanner className="absolute bottom-full inset-x-2 translate-y-1 z-0 pb-2" />
         <div
-          className={`shadow-md rounded-2xl relative z-10 bg-background border ${
+          className={`shadow-md rounded-2xl relative z-10 bg-background border paper-card ${
             dragActive
               ? 'before:absolute before:inset-0 before:rounded-2xl before:border-2 before:border-dashed before:border-primary'
               : ''
@@ -270,10 +269,7 @@ export function ChatInput({
         </div>
       </div>
       <p className="text-xs text-muted-foreground mt-2 text-center">
-        Fragments is an open-source project made by{' '}
-        <a href="https://e2b.dev" target="_blank" className="text-[#ff8800]">
-          ✶ E2B
-        </a>
+        Code Canvas - AI-powered development platform
       </p>
     </form>
   )

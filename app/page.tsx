@@ -31,7 +31,7 @@ export default function Home() {
   const [languageModel, setLanguageModel] = useLocalStorage<LLMModelConfig>(
     'languageModel',
     {
-      model: 'claude-3-5-sonnet-latest',
+      model: 'openai/gpt-4o',
     },
   )
 
@@ -228,11 +228,11 @@ export default function Home() {
 
   function handleSocialClick(target: 'github' | 'x' | 'discord') {
     if (target === 'github') {
-      window.open('https://github.com/e2b-dev/fragments', '_blank')
+      window.open('https://github.com/your-org/code-canvas', '_blank')
     } else if (target === 'x') {
-      window.open('https://x.com/e2b_dev', '_blank')
+      window.open('https://x.com/your_handle', '_blank')
     } else if (target === 'discord') {
-      window.open('https://discord.gg/U7KEcGErtQ', '_blank')
+      window.open('https://discord.gg/your-invite', '_blank')
     }
 
     posthog.capture(`${target}_click`)
@@ -263,7 +263,7 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen max-h-screen">
+    <main className="flex min-h-screen max-h-screen bg-background">
       {supabase && (
         <AuthDialog
           open={isAuthDialogOpen}

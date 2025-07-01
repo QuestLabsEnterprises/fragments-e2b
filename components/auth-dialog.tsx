@@ -23,19 +23,19 @@ export function AuthDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent>
+      <DialogContent className="paper-elevated">
         <VisuallyHidden>
-          <DialogTitle>Sign in to Fragments</DialogTitle>
+          <DialogTitle>Sign in to Code Canvas</DialogTitle>
           <DialogDescription>
-            Sign in or create an account to access Fragments
+            Sign in or create an account to access Code Canvas
           </DialogDescription>
         </VisuallyHidden>
         <div className="flex justify-center items-center flex-col">
           <h1 className="flex items-center gap-4 text-xl font-bold mb-6 w-full">
-            <div className="flex items-center justify-center rounded-md shadow-md bg-black p-2">
-              <Logo className="text-white w-6 h-6" />
+            <div className="flex items-center justify-center rounded-md shadow-md bg-primary p-2">
+              <Logo className="text-primary-foreground w-6 h-6" />
             </div>
-            Sign in to Fragments
+            Sign in to Code Canvas
           </h1>
           <div className="w-full">
             <Auth
@@ -45,7 +45,7 @@ export function AuthDialog({
               socialLayout="horizontal"
               onSignUpValidate={validateEmail}
               metadata={{
-                is_fragments_user: true,
+                is_canvas_user: true,
               }}
             />
           </div>
