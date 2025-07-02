@@ -45,11 +45,11 @@ export function NavBar({
   canUndo: boolean
 }) {
   return (
-    <nav className="w-full flex bg-background py-4 paper-card">
+    <nav className="w-full flex bg-background py-4">
       <div className="flex flex-1 items-center">
         <Link href="/" className="flex items-center gap-2">
           <Logo width={24} height={24} />
-          <h1 className="text-xl font-semibold">Code Canvas</h1>
+          <h1 className="text-xl font-semibold">CodeQuest AI</h1>
         </Link>
       </div>
       <div className="flex items-center gap-1 md:gap-4">

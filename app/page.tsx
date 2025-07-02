@@ -21,6 +21,7 @@ import { experimental_useObject as useObject } from 'ai/react'
 import { usePostHog } from 'posthog-js/react'
 import { SetStateAction, useEffect, useState } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
+import { ArrowUp, Settings2 } from 'lucide-react'
 
 export default function Home() {
   const [chatInput, setChatInput] = useLocalStorage('chat', '')
@@ -31,7 +32,8 @@ export default function Home() {
   const [languageModel, setLanguageModel] = useLocalStorage<LLMModelConfig>(
     'languageModel',
     {
-      model: 'openai/gpt-4o-mini',
+      model: '',
+      apiKey: '',
     },
   )
 
@@ -46,6 +48,8 @@ export default function Home() {
   const [authView, setAuthView] = useState<ViewType>('sign_in')
   const [isRateLimited, setIsRateLimited] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const [showChat, setShowChat] = useState(false)
+  const [showSettings, setShowSettings] = useState(false)
   const { session, userTeam } = useAuth(setAuthDialog, setAuthView)
 
   const filteredModels = modelsList.models
@@ -72,7 +76,6 @@ export default function Home() {
     },
     onFinish: async ({ object: fragment, error }) => {
       if (!error) {
-        // send it to /api/sandbox
         console.log('fragment', fragment)
         setIsPreviewLoading(true)
         posthog.capture('fragment_generated', {
@@ -146,15 +149,27 @@ export default function Home() {
   async function handleSubmitAuth(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-    // Check if API key is provided
+    // Check if API key and model are provided
     if (!languageModel.apiKey) {
       setErrorMessage('Please provide your OpenRouter API key in the settings.')
+      return
+    }
+
+    if (!languageModel.model) {
+      setErrorMessage('Please specify a model ID from OpenRouter.')
+      return
+    }
+
+    if (!chatInput.trim()) {
+      setErrorMessage('Please enter a description of what you want to build.')
       return
     }
 
     if (isLoading) {
       stop()
     }
+
+    setShowChat(true)
 
     const content: Message['content'] = [{ type: 'text', text: chatInput }]
     const images = await toMessageImage(files)
@@ -195,6 +210,11 @@ export default function Home() {
       return
     }
 
+    if (!languageModel.model) {
+      setErrorMessage('Please specify a model ID from OpenRouter.')
+      return
+    }
+
     submit({
       userID: session?.user?.id,
       teamID: userTeam?.id,
@@ -230,7 +250,7 @@ export default function Home() {
 
   function handleSocialClick(target: 'github' | 'x' | 'discord') {
     if (target === 'github') {
-      window.open('https://github.com/your-org/code-canvas', '_blank')
+      window.open('https://github.com/your-org/codequest-ai', '_blank')
     } else if (target === 'x') {
       window.open('https://x.com/your_handle', '_blank')
     } else if (target === 'discord') {
@@ -251,6 +271,7 @@ export default function Home() {
     setIsPreviewLoading(false)
     setErrorMessage('')
     setIsRateLimited(false)
+    setShowChat(false)
   }
 
   function setCurrentPreview(preview: {
@@ -264,6 +285,95 @@ export default function Home() {
   function handleUndo() {
     setMessages((previousMessages) => [...previousMessages.slice(0, -2)])
     setCurrentPreview({ fragment: undefined, result: undefined })
+  }
+
+  if (!showChat) {
+    return (
+      <main className="main-container">
+        {supabase && (
+          <AuthDialog
+            open={isAuthDialogOpen}
+            setOpen={setAuthDialog}
+            view={authView}
+            supabase={supabase}
+          />
+        )}
+        
+        <div className="hero-section">
+          <h1 className="hero-title">CodeQuest AI</h1>
+          <p className="hero-subtitle">
+            What would you like to
+            <span className="vibe-code-highlight">Vibe-Code</span>
+          </p>
+          
+          <form onSubmit={handleSubmitAuth} className="input-section">
+            <textarea
+              value={chatInput}
+              onChange={handleSaveInputChange}
+              placeholder="Describe your app idea..."
+              className="main-input"
+              rows={3}
+              required
+            />
+            
+            <div className="controls-section" style={{ marginTop: '1.5rem' }}>
+              <input
+                type="text"
+                value={languageModel.model || ''}
+                onChange={(e) => handleLanguageModelChange({ model: e.target.value })}
+                placeholder="Enter OpenRouter model ID (e.g., openai/gpt-4o)"
+                className="model-selector"
+                required
+              />
+              
+              <button
+                type="button"
+                onClick={() => setShowSettings(!showSettings)}
+                className="settings-button"
+              >
+                <Settings2 className="h-5 w-5" />
+              </button>
+              
+              <button
+                type="submit"
+                disabled={isLoading || !languageModel.apiKey || !languageModel.model}
+                className="submit-button"
+              >
+                {isLoading ? (
+                  <div className="loading-spinner" />
+                ) : (
+                  <ArrowUp className="h-5 w-5" />
+                )}
+                Generate
+              </button>
+            </div>
+          </form>
+
+          {showSettings && (
+            <div style={{ marginTop: '2rem', maxWidth: '400px', width: '100%' }}>
+              <ChatSettings
+                languageModel={languageModel}
+                onLanguageModelChange={handleLanguageModelChange}
+              />
+            </div>
+          )}
+
+          {errorMessage && (
+            <div style={{ 
+              marginTop: '1rem', 
+              padding: '1rem', 
+              background: '#fef2f2', 
+              border: '1px solid #fecaca', 
+              borderRadius: '0.5rem',
+              color: '#dc2626',
+              maxWidth: '600px'
+            }}>
+              {errorMessage}
+            </div>
+          )}
+        </div>
+      </main>
+    )
   }
 
   return (

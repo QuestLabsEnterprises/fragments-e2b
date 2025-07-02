@@ -24,163 +24,117 @@ export function ChatSettings({
   onLanguageModelChange: (model: LLMModelConfig) => void
 }) {
   return (
-    <DropdownMenu>
-      <TooltipProvider>
-        <Tooltip delayDuration={0}>
-          <TooltipTrigger asChild>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-muted-foreground h-6 w-6 rounded-sm">
-                <Settings2 className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-          </TooltipTrigger>
-          <TooltipContent>Model settings</TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-      <DropdownMenuContent align="start">
-        <div className="flex flex-col gap-2 px-2 py-2">
-          <Label htmlFor="apiKey">OpenRouter API Key *</Label>
+    <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+      <h3 className="text-lg font-semibold mb-4">Model Settings</h3>
+      
+      <div className="space-y-4">
+        <div>
+          <Label htmlFor="apiKey" className="text-sm font-medium">
+            OpenRouter API Key *
+          </Label>
           <Input
+            id="apiKey"
             name="apiKey"
             type="password"
             placeholder="sk-or-v1-..."
-            required={true}
-            defaultValue={languageModel.apiKey}
+            value={languageModel.apiKey || ''}
             onChange={(e) =>
               onLanguageModelChange({
-                apiKey:
-                  e.target.value.length > 0 ? e.target.value : undefined,
+                apiKey: e.target.value || undefined,
               })
             }
-            className="text-sm"
+            className="mt-1"
           />
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-gray-500 mt-1">
             Get your API key from{' '}
             <a
               href="https://openrouter.ai/keys"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline"
+              className="text-blue-600 hover:underline"
             >
               OpenRouter
             </a>
           </p>
         </div>
-        <DropdownMenuSeparator />
-        <div className="flex flex-col gap-1.5 px-2 py-2">
-          <span className="text-sm font-medium">Parameters</span>
-          <div className="flex space-x-4 items-center">
-            <span className="text-sm flex-1 text-muted-foreground">
-              Output tokens
-            </span>
-            <Input
-              type="number"
-              defaultValue={languageModel.maxTokens}
-              min={50}
-              max={10000}
-              step={1}
-              className="h-6 rounded-sm w-[84px] text-xs text-center tabular-nums"
-              placeholder="Auto"
-              onChange={(e) =>
-                onLanguageModelChange({
-                  maxTokens: parseFloat(e.target.value) || undefined,
-                })
-              }
-            />
-          </div>
-          <div className="flex space-x-4 items-center">
-            <span className="text-sm flex-1 text-muted-foreground">
-              Temperature
-            </span>
-            <Input
-              type="number"
-              defaultValue={languageModel.temperature}
-              min={0}
-              max={5}
-              step={0.01}
-              className="h-6 rounded-sm w-[84px] text-xs text-center tabular-nums"
-              placeholder="Auto"
-              onChange={(e) =>
-                onLanguageModelChange({
-                  temperature: parseFloat(e.target.value) || undefined,
-                })
-              }
-            />
-          </div>
-          <div className="flex space-x-4 items-center">
-            <span className="text-sm flex-1 text-muted-foreground">Top P</span>
-            <Input
-              type="number"
-              defaultValue={languageModel.topP}
-              min={0}
-              max={1}
-              step={0.01}
-              className="h-6 rounded-sm w-[84px] text-xs text-center tabular-nums"
-              placeholder="Auto"
-              onChange={(e) =>
-                onLanguageModelChange({
-                  topP: parseFloat(e.target.value) || undefined,
-                })
-              }
-            />
-          </div>
-          <div className="flex space-x-4 items-center">
-            <span className="text-sm flex-1 text-muted-foreground">Top K</span>
-            <Input
-              type="number"
-              defaultValue={languageModel.topK}
-              min={0}
-              max={500}
-              step={1}
-              className="h-6 rounded-sm w-[84px] text-xs text-center tabular-nums"
-              placeholder="Auto"
-              onChange={(e) =>
-                onLanguageModelChange({
-                  topK: parseFloat(e.target.value) || undefined,
-                })
-              }
-            />
-          </div>
-          <div className="flex space-x-4 items-center">
-            <span className="text-sm flex-1 text-muted-foreground">
-              Frequence penalty
-            </span>
-            <Input
-              type="number"
-              defaultValue={languageModel.frequencyPenalty}
-              min={0}
-              max={2}
-              step={0.01}
-              className="h-6 rounded-sm w-[84px] text-xs text-center tabular-nums"
-              placeholder="Auto"
-              onChange={(e) =>
-                onLanguageModelChange({
-                  frequencyPenalty: parseFloat(e.target.value) || undefined,
-                })
-              }
-            />
-          </div>
-          <div className="flex space-x-4 items-center">
-            <span className="text-sm flex-1 text-muted-foreground">
-              Presence penalty
-            </span>
-            <Input
-              type="number"
-              defaultValue={languageModel.presencePenalty}
-              min={0}
-              max={2}
-              step={0.01}
-              className="h-6 rounded-sm w-[84px] text-xs text-center tabular-nums"
-              placeholder="Auto"
-              onChange={(e) =>
-                onLanguageModelChange({
-                  presencePenalty: parseFloat(e.target.value) || undefined,
-                })
-              }
-            />
+
+        <div>
+          <Label htmlFor="modelId" className="text-sm font-medium">
+            Model ID *
+          </Label>
+          <Input
+            id="modelId"
+            name="modelId"
+            type="text"
+            placeholder="e.g., openai/gpt-4o, anthropic/claude-3.5-sonnet"
+            value={languageModel.model || ''}
+            onChange={(e) =>
+              onLanguageModelChange({
+                model: e.target.value || undefined,
+              })
+            }
+            className="mt-1"
+          />
+          <p className="text-xs text-gray-500 mt-1">
+            Find model IDs at{' '}
+            <a
+              href="https://openrouter.ai/models"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:underline"
+            >
+              OpenRouter Models
+            </a>
+          </p>
+        </div>
+
+        <div className="border-t pt-4">
+          <h4 className="text-sm font-medium mb-3">Advanced Parameters</h4>
+          
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <Label htmlFor="temperature" className="text-xs">
+                Temperature
+              </Label>
+              <Input
+                id="temperature"
+                type="number"
+                min={0}
+                max={2}
+                step={0.1}
+                value={languageModel.temperature || ''}
+                onChange={(e) =>
+                  onLanguageModelChange({
+                    temperature: parseFloat(e.target.value) || undefined,
+                  })
+                }
+                placeholder="0.7"
+                className="text-xs"
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="maxTokens" className="text-xs">
+                Max Tokens
+              </Label>
+              <Input
+                id="maxTokens"
+                type="number"
+                min={1}
+                max={10000}
+                value={languageModel.maxTokens || ''}
+                onChange={(e) =>
+                  onLanguageModelChange({
+                    maxTokens: parseInt(e.target.value) || undefined,
+                  })
+                }
+                placeholder="2048"
+                className="text-xs"
+              />
+            </div>
           </div>
         </div>
-      </DropdownMenuContent>
-    </DropdownMenu>
+      </div>
+    </div>
   )
 }

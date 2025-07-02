@@ -1,4 +1,4 @@
-# Code Canvas
+# CodeQuest AI
 
 An AI-powered code generation and execution platform that allows you to create, run, and deploy applications through natural language conversations.
 
@@ -8,7 +8,7 @@ An AI-powered code generation and execution platform that allows you to create, 
 - **Multiple Templates**: Support for Python, Next.js, Vue.js, Streamlit, and Gradio applications
 - **Real-time Execution**: See your code run instantly in secure sandboxed environments
 - **OpenRouter Integration**: Access to multiple AI models through OpenRouter
-- **Paper Theme**: Clean, document-inspired design for a focused development experience
+- **Clean Design**: Minimalist, focused interface for productive development
 - **Deployment**: One-click sharing of your applications
 
 ## Supported Stacks
@@ -21,14 +21,15 @@ An AI-powered code generation and execution platform that allows you to create, 
 
 ## Supported AI Models
 
-Through OpenRouter integration:
-- OpenAI GPT-4o and GPT-4o Mini
-- Anthropic Claude 3.5 Sonnet and Haiku
-- Google Gemini 2.0 Flash
-- Meta Llama 3.1 (405B and 70B)
-- Mistral Large
-- DeepSeek Chat
+Through OpenRouter integration, you can use any model available on OpenRouter:
+- OpenAI GPT-4o, GPT-4o Mini, GPT-3.5 Turbo
+- Anthropic Claude 3.5 Sonnet, Claude 3.5 Haiku
+- Google Gemini 2.0 Flash, Gemini Pro
+- Meta Llama 3.1 (405B, 70B, 8B)
+- Mistral Large, Mistral Medium
+- DeepSeek Chat, DeepSeek Coder
 - xAI Grok Beta
+- And many more...
 
 ## Get Started
 
@@ -42,8 +43,8 @@ Through OpenRouter integration:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-org/code-canvas.git
-cd code-canvas
+git clone https://github.com/your-org/codequest-ai.git
+cd codequest-ai
 ```
 
 2. Install dependencies:
@@ -56,7 +57,7 @@ npm install
 cp .env.template .env.local
 ```
 
-Edit `.env.local` and add your API keys:
+Edit `.env.local` and add your E2B API key:
 ```
 E2B_API_KEY=your_e2b_api_key_here
 ```
@@ -71,13 +72,38 @@ npm run dev
 ## Usage
 
 1. **Get your OpenRouter API key**: Visit [OpenRouter](https://openrouter.ai/keys) to get your API key
-2. **Configure your model**: Click the settings icon and enter your OpenRouter API key
-3. **Choose a model**: Select from available models like GPT-4o, Claude 3.5 Sonnet, etc.
+2. **Choose a model**: Enter any model ID from [OpenRouter Models](https://openrouter.ai/models)
+3. **Configure settings**: Click the settings icon and enter your API key and model preferences
 4. **Describe your app**: Type a natural language description of what you want to build
-5. **Choose a template**: Select from Python, Next.js, Vue.js, Streamlit, or Gradio
-6. **Watch it generate**: The AI will create your application code
-7. **See it run**: View your app running in real-time
-8. **Share**: Share your creation with a public URL
+5. **Watch it generate**: The AI will create your application code
+6. **See it run**: View your app running in real-time
+7. **Share**: Share your creation with a public URL
+
+## Popular Model IDs
+
+Here are some popular model IDs you can use:
+
+**OpenAI Models:**
+- `openai/gpt-4o` - Latest GPT-4 Omni model
+- `openai/gpt-4o-mini` - Faster, cost-effective GPT-4
+- `openai/gpt-3.5-turbo` - Fast and reliable
+
+**Anthropic Models:**
+- `anthropic/claude-3.5-sonnet` - Excellent for coding
+- `anthropic/claude-3.5-haiku` - Fast and efficient
+
+**Google Models:**
+- `google/gemini-2.0-flash-exp` - Latest Gemini model
+- `google/gemini-pro` - Reliable general-purpose model
+
+**Meta Models:**
+- `meta-llama/llama-3.1-405b-instruct` - Most capable Llama model
+- `meta-llama/llama-3.1-70b-instruct` - Balanced performance
+
+**Other Models:**
+- `mistralai/mistral-large` - Excellent European model
+- `deepseek/deepseek-chat` - Great for coding tasks
+- `x-ai/grok-beta` - xAI's latest model
 
 ## Configuration
 

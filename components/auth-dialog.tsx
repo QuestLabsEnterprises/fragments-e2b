@@ -25,9 +25,9 @@ export function AuthDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="paper-elevated">
         <VisuallyHidden>
-          <DialogTitle>Sign in to Code Canvas</DialogTitle>
+          <DialogTitle>Sign in to CodeQuest AI</DialogTitle>
           <DialogDescription>
-            Sign in or create an account to access Code Canvas
+            Sign in or create an account to access CodeQuest AI
           </DialogDescription>
         </VisuallyHidden>
         <div className="flex justify-center items-center flex-col">
@@ -35,7 +35,7 @@ export function AuthDialog({
             <div className="flex items-center justify-center rounded-md shadow-md bg-primary p-2">
               <Logo className="text-primary-foreground w-6 h-6" />
             </div>
-            Sign in to Code Canvas
+            Sign in to CodeQuest AI
           </h1>
           <div className="w-full">
             <Auth
@@ -45,7 +45,7 @@ export function AuthDialog({
               socialLayout="horizontal"
               onSignUpValidate={validateEmail}
               metadata={{
-                is_canvas_user: true,
+                is_codequest_user: true,
               }}
             />
           </div>
