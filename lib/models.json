@@ -62,6 +62,13 @@
       "providerId": "openrouter",
       "name": "DeepSeek Chat",
       "multiModal": false
+    },
+    {
+      "id": "x-ai/grok-beta",
+      "provider": "xAI",
+      "providerId": "openrouter",
+      "name": "Grok Beta",
+      "multiModal": false
     }
   ]
 }

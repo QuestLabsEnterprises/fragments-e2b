@@ -269,7 +269,7 @@ export function ChatInput({
         </div>
       </div>
       <p className="text-xs text-muted-foreground mt-2 text-center">
-        Code Canvas - AI-powered development platform
+        AI-powered development platform
       </p>
     </form>
   )

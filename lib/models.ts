@@ -23,8 +23,12 @@ export function getModelClient(model: LLMModel, config: LLMModelConfig) {
   const { id: modelNameString } = model
   const { apiKey } = config
 
+  if (!apiKey) {
+    throw new Error('OpenRouter API key is required. Please provide your API key in the settings.')
+  }
+
   return createOpenAI({
-    apiKey: apiKey || process.env.OPENROUTER_API_KEY,
+    apiKey,
     baseURL: 'https://openrouter.ai/api/v1',
   })(modelNameString)
 }

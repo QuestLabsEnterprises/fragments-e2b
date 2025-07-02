@@ -31,7 +31,7 @@ export default function Home() {
   const [languageModel, setLanguageModel] = useLocalStorage<LLMModelConfig>(
     'languageModel',
     {
-      model: 'openai/gpt-4o',
+      model: 'openai/gpt-4o-mini',
     },
   )
 
@@ -48,12 +48,7 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState('')
   const { session, userTeam } = useAuth(setAuthDialog, setAuthView)
 
-  const filteredModels = modelsList.models.filter((model) => {
-    if (process.env.NEXT_PUBLIC_HIDE_LOCAL_MODELS) {
-      return model.providerId !== 'ollama'
-    }
-    return true
-  })
+  const filteredModels = modelsList.models
 
   const currentModel = filteredModels.find(
     (model) => model.id === languageModel.model,
@@ -151,8 +146,10 @@ export default function Home() {
   async function handleSubmitAuth(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-    if (!session) {
-      return setAuthDialog(true)
+    // Check if API key is provided
+    if (!languageModel.apiKey) {
+      setErrorMessage('Please provide your OpenRouter API key in the settings.')
+      return
     }
 
     if (isLoading) {
@@ -193,6 +190,11 @@ export default function Home() {
   }
 
   function retry() {
+    if (!languageModel.apiKey) {
+      setErrorMessage('Please provide your OpenRouter API key in the settings.')
+      return
+    }
+
     submit({
       userID: session?.user?.id,
       teamID: userTeam?.id,
@@ -247,6 +249,8 @@ export default function Home() {
     setResult(undefined)
     setCurrentTab('code')
     setIsPreviewLoading(false)
+    setErrorMessage('')
+    setIsRateLimited(false)
   }
 
   function setCurrentPreview(preview: {
@@ -316,8 +320,6 @@ export default function Home() {
             <ChatSettings
               languageModel={languageModel}
               onLanguageModelChange={handleLanguageModelChange}
-              apiKeyConfigurable={!process.env.NEXT_PUBLIC_NO_API_KEY_INPUT}
-              baseURLConfigurable={!process.env.NEXT_PUBLIC_NO_BASE_URL_INPUT}
             />
           </ChatInput>
         </div>

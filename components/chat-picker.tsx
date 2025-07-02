@@ -90,8 +90,8 @@ export function ChatPicker({
                     <div className="flex items-center space-x-2">
                       <Image
                         className="flex"
-                        src={`/thirdparty/logos/${model.providerId}.svg`}
-                        alt={model.provider}
+                        src={`/thirdparty/logos/openrouter.svg`}
+                        alt="OpenRouter"
                         width={14}
                         height={14}
                       />

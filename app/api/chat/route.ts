@@ -33,13 +33,18 @@ export async function POST(req: Request) {
     config: LLMModelConfig
   } = await req.json()
 
-  const limit = !config.apiKey
-    ? await ratelimit(
-        req.headers.get('x-forwarded-for'),
-        rateLimitMaxRequests,
-        ratelimitWindow,
-      )
-    : false
+  // Always require API key for OpenRouter
+  if (!config.apiKey) {
+    return new Response('OpenRouter API key is required. Please provide your API key in the settings.', {
+      status: 400,
+    })
+  }
+
+  const limit = await ratelimit(
+    req.headers.get('x-forwarded-for'),
+    rateLimitMaxRequests,
+    ratelimitWindow,
+  )
 
   if (limit) {
     return new Response('You have reached your request limit for the day.', {
@@ -54,14 +59,13 @@ export async function POST(req: Request) {
 
   console.log('userID', userID)
   console.log('teamID', teamID)
-  // console.log('template', template)
   console.log('model', model)
-  // console.log('config', config)
 
   const { model: modelNameString, apiKey: modelApiKey, ...modelParams } = config
-  const modelClient = getModelClient(model, config)
 
   try {
+    const modelClient = getModelClient(model, config)
+
     const stream = await streamObject({
       model: modelClient as LanguageModel,
       schema,
@@ -82,7 +86,7 @@ export async function POST(req: Request) {
 
     if (isRateLimitError) {
       return new Response(
-        'The provider is currently unavailable due to request limit. Try using your own API key.',
+        'The provider is currently unavailable due to request limit. Please check your API key and try again.',
         {
           status: 429,
         },
@@ -100,7 +104,7 @@ export async function POST(req: Request) {
 
     if (isAccessDeniedError) {
       return new Response(
-        'Access denied. Please make sure your API key is valid.',
+        'Access denied. Please make sure your OpenRouter API key is valid.',
         {
           status: 403,
         },
@@ -110,7 +114,7 @@ export async function POST(req: Request) {
     console.error('Error:', error)
 
     return new Response(
-      'An unexpected error has occurred. Please try again later.',
+      'An unexpected error has occurred. Please check your API key and try again.',
       {
         status: 500,
       },

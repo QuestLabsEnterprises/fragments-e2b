@@ -61,13 +61,13 @@ export function DeployDialog({
       <DropdownMenuTrigger asChild>
         <Button variant="default" className="paper-elevated">
           <Logo style="canvas" width={16} height={16} className="mr-2" />
-          Deploy
+          Share
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="p-4 w-80 flex flex-col gap-2 paper-elevated">
-        <div className="text-sm font-semibold">Deploy Your App</div>
+        <div className="text-sm font-semibold">Share Your App</div>
         <div className="text-sm text-muted-foreground">
-          Deploying the app will make it publicly accessible to others via
+          Sharing the app will make it publicly accessible to others via
           link.
         </div>
         <div className="text-sm text-muted-foreground">
@@ -101,7 +101,7 @@ export function DeployDialog({
             variant="default"
             disabled={publishedURL !== null}
           >
-            {publishedURL ? 'Deployed' : 'Accept and deploy'}
+            {publishedURL ? 'Shared' : 'Accept and share'}
           </Button>
         </form>
       </DropdownMenuContent>
