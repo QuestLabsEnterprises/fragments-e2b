@@ -19,8 +19,7 @@ export type LLMModelConfig = {
   maxTokens?: number
 }
 
-export function getModelClient(model: LLMModel, config: LLMModelConfig) {
-  const { id: modelNameString } = model
+export function getModelClient(modelId: string, config: LLMModelConfig) {
   const { apiKey } = config
 
   if (!apiKey) {
@@ -30,5 +29,5 @@ export function getModelClient(model: LLMModel, config: LLMModelConfig) {
   return createOpenAI({
     apiKey,
     baseURL: 'https://openrouter.ai/api/v1',
-  })(modelNameString)
+  })(modelId)
 }

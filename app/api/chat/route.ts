@@ -1,6 +1,6 @@
 import { Duration } from '@/lib/duration'
 import { getModelClient } from '@/lib/models'
-import { LLMModel, LLMModelConfig } from '@/lib/models'
+import { LLMModelConfig } from '@/lib/models'
 import { toPrompt } from '@/lib/prompt'
 import ratelimit from '@/lib/ratelimit'
 import { fragmentSchema as schema } from '@/lib/schema'
@@ -22,20 +22,25 @@ export async function POST(req: Request) {
     userID,
     teamID,
     template,
-    model,
     config,
   }: {
     messages: CoreMessage[]
     userID: string | undefined
     teamID: string | undefined
     template: Templates
-    model: LLMModel
     config: LLMModelConfig
   } = await req.json()
 
   // Always require API key for OpenRouter
   if (!config.apiKey) {
     return new Response('OpenRouter API key is required. Please provide your API key in the settings.', {
+      status: 400,
+    })
+  }
+
+  // Ensure model is provided
+  if (!config.model) {
+    return new Response('Model ID is required. Please specify a model from OpenRouter.', {
       status: 400,
     })
   }
@@ -59,12 +64,12 @@ export async function POST(req: Request) {
 
   console.log('userID', userID)
   console.log('teamID', teamID)
-  console.log('model', model)
+  console.log('model', config.model)
 
   const { model: modelNameString, apiKey: modelApiKey, ...modelParams } = config
 
   try {
-    const modelClient = getModelClient(model, config)
+    const modelClient = getModelClient(config.model, config)
 
     const stream = await streamObject({
       model: modelClient as LanguageModel,

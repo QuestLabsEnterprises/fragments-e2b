@@ -190,7 +190,6 @@ export default function Home() {
       teamID: userTeam?.id,
       messages: toAISDKMessages(updatedMessages),
       template: currentTemplate,
-      model: currentModel,
       config: languageModel,
     })
 
@@ -220,7 +219,6 @@ export default function Home() {
       teamID: userTeam?.id,
       messages: toAISDKMessages(messages),
       template: currentTemplate,
-      model: currentModel,
       config: languageModel,
     })
   }
